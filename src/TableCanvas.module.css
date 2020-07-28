@@ -1,0 +1,24 @@
+.section {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 660px;
+    position: relative;
+}
+
+.tableCanvas {
+    /* position: absolute; */
+    /* z-index: -1; */
+}
+
+.sectionSurface {
+    position: absolute;
+    top: 0;
+    overflow: auto;
+    width: 100%;
+}
+
+.root {
+    position: relative;
+    margin: 100px;
+    border: 1px solid #000000;
+}
