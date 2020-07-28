@@ -22,3 +22,7 @@
     margin: 100px;
     border: 1px solid #000000;
 }
+
+.tableBody {
+    position: relative;
+}

@@ -1,0 +1,18 @@
+.tableHeader {
+    display: flex;
+}
+
+.header {
+    border-bottom: 1px solid #000000;
+    border-right: 1px solid #000000;
+    position: relative;
+}
+
+.resizeSection {
+    height: 100%;
+    width: 8px;
+    background-color: transparent;
+    position: absolute;
+    right: -4px;
+    cursor: ew-resize;
+}

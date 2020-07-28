@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './TableCanvas.module.css';
 import { drawRow, drawRowReverse } from './utils/TableUtils';
 import { COLOR_STRIPED, COLOR_BASIC, COLOR_HOVER, COLOR_CLICK, DEFAULT_PADDING } from './consts/TableCanvasConsts';
+import TableHeader from './components/TableHeader';
 
 export default class TableCanvas extends React.Component {
     PIXEL_RATIO = 0;
@@ -108,6 +109,7 @@ export default class TableCanvas extends React.Component {
      * */
     renderTableWithStartEndIndex = (startIndex, endIndex, isReverse = false) => {
         const { tableColumns, rowHeight, colorClick } = this.props;
+        console.log(tableColumns)
         const dataProvider = [...this.props.dataProvider];
 
         if (Array.isArray(dataProvider) && dataProvider.length) {
@@ -434,14 +436,19 @@ export default class TableCanvas extends React.Component {
         // TODO: change padding to props and then add it to code
         if (mouseYPos >= topBoundingValue && mouseYPos <= bottomBoundingValue &&
             mouseXPos > startXPosOfEachColumns + DEFAULT_PADDING && mouseXPos <= startXPosOfEachColumns + valueBounding.width + DEFAULT_PADDING) {
-                if (tableColumns[columnClicked].onClick && typeof tableColumns[columnClicked].onClick === 'function') {
-                    tableColumns[columnClicked].onClick();
-                }
+            if (tableColumns[columnClicked].onClick && typeof tableColumns[columnClicked].onClick === 'function') {
+                tableColumns[columnClicked].onClick();
+            }
         }
     }
 
+    _onResizeHandler = (tableColumns) => {
+        console.log("hello man")
+        this.renderCurrentDataTableCanvas();
+    }
+
     render() {
-        const { containerClassName } = this.props;
+        const { containerClassName, tableColumns } = this.props;
         let containerClasses = [styles.section];
         let tableClasses = [styles.tableCanvas];
         let surfaceClasses = [styles.sectionSurface, styles.section];
@@ -454,21 +461,32 @@ export default class TableCanvas extends React.Component {
 
         return (
             <div className={styles.root}>
-                <div ref={r => this.containerRef = r} className={containerClasses.join(' ')} >
-                    <canvas
-                        ref={r => this.canvas = r}
-                        className={tableClasses.join(' ')}
+                <div>
+                    <TableHeader 
+                        tableColumns={tableColumns}
+                        boundingCanvas={this.boundingCanvas}
+                        onResizeHandler={this._onResizeHandler}
                     />
-                    <div ref={r => this.containerHiddenDataRef = r} />
                 </div>
-                <div ref={r => this.surfaceContainerRef = r} className={surfaceClasses.join(' ')} onScroll={this._onScrollTableCanvas}>
-                    <div ref={r => this.surfaceDataRef = r}
-                        onMouseMove={this._onMouseMove}
-                        onMouseLeave={this._onMouseLeave}
-                        onMouseDown={this._onMouseDown}
-                    />
+                <div className={styles.tableBody}>
+                    <div ref={r => this.containerRef = r} className={containerClasses.join(' ')} >
+                        <canvas
+                            ref={r => this.canvas = r}
+                            className={tableClasses.join(' ')}
+                            onResizeHandler={this._onResizeHandler}
+                        />
+                        <div ref={r => this.containerHiddenDataRef = r} />
+                    </div>
+                    <div ref={r => this.surfaceContainerRef = r} className={surfaceClasses.join(' ')} onScroll={this._onScrollTableCanvas}>
+                        <div ref={r => this.surfaceDataRef = r}
+                            onMouseMove={this._onMouseMove}
+                            onMouseLeave={this._onMouseLeave}
+                            onMouseDown={this._onMouseDown}
+                        />
+                    </div>
                 </div>
             </div>
+
         )
     }
 }

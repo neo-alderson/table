@@ -2,16 +2,17 @@ import React, { Component } from 'react'
 import TableCanvas from './TableCanvas'
 
 export default class App extends Component {
-    tableColumns = [
-        { lable: "ID", width: 100, target: 'id', onClick: () => { } },
-        { lable: "NAME", width: 500, target: 'name', onClick: () => { } },
-        { lable: "PHONE", width: 200, target: 'phone' },
-    ]
+    
 
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            tableColumns: [
+                { lable: "ID", width: 100, target: 'id', onClick: () => { }, className: "p-4px"},
+                { lable: "NAME", width: 500, target: 'name', onClick: () => { } },
+                { lable: "PHONE", width: 200, target: 'phone' },
+            ]
         }
     }
 
@@ -38,7 +39,7 @@ export default class App extends Component {
             <div>
                 <TableCanvas
                     dataProvider={data}
-                    tableColumns={this.tableColumns}
+                    tableColumns={this.state.tableColumns}
                     rowHeight={30}
                     stripedRow={true}
                     colorHover="#99ccff"
